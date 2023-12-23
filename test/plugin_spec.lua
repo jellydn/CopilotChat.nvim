@@ -13,5 +13,5 @@ describe('CopilotChat plugin', function()
       vim.log.levels.INFO,
       { title = 'CopilotChat.nvim' }
     )
+  end
   end)
-end)
