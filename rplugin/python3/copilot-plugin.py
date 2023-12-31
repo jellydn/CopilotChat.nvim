@@ -3,6 +3,7 @@ import time
 
 import copilot
 import dotenv
+import prompts
 import pynvim
 
 dotenv.load_dotenv()
@@ -36,6 +37,13 @@ class CopilotChatPlugin(object):
             return
         prompt = " ".join(args)
 
+        if prompt == "/fix":
+            prompt = prompts.FIX_SHORTCUT
+        elif prompt == "/test":
+            prompt = prompts.TEST_SHORTCUT
+        elif prompt == "/explain":
+            prompt = prompts.EXPLAIN_SHORTCUT
+
         # Get code from the unnamed register
         code = self.nvim.eval("getreg('\"')")
         file_type = self.nvim.eval("expand('%')").split(".")[-1]
@@ -47,9 +55,9 @@ class CopilotChatPlugin(object):
             # Set filetype as markdown and wrap with linebreaks
             self.nvim.command("setlocal filetype=markdown wrap linebreak")
 
-        if self.nvim.current.line != "":
-            # Go to end of file and insert a new line
-            self.nvim.command("normal Go")
+        # if self.nvim.current.line != "":
+        # Go to end of file and insert a new line
+        self.nvim.command("normal Go")
         self.nvim.current.line += "### User"
         self.nvim.command("normal o")
         # TODO: How to handle the case with the large text in from neovim command
