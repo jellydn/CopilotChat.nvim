@@ -14,10 +14,14 @@ It will prompt you with instructions on your first start. If you already have `C
 ```lua
 require('lazy').setup({
   {
-    "gptlang/CopilotChat.nvim",
+    "jellydn/CopilotChat.nvim",
+    branch = "canary",
     opts = {},
     build = function()
-      vim.cmd("UpdateRemotePlugins")
+      vim.defer_fn(function()
+        vim.cmd("UpdateRemotePlugins")
+        vim.notify("CopilotChat - Updated remote plugins. Please restart Neovim.")
+      end, 3000)
     end,
     event = "VeryLazy",
     keys = {
