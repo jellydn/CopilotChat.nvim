@@ -47,10 +47,18 @@ class CopilotChatPlugin(object):
         # Get code from the unnamed register
         code = self.nvim.eval("getreg('\"')")
         file_type = self.nvim.eval("expand('%')").split(".")[-1]
+
+        # Get the view option from the command
+        view_option = self.nvim.eval("g:copilot_chat_view_option")
+
         # Check if we're already in a chat buffer
         if self.nvim.eval("getbufvar(bufnr(), '&buftype')") != "nofile":
             # Create a new scratch buffer to hold the chat
-            self.nvim.command("enew")
+            if view_option == "split":
+                self.nvim.command("vnew")
+            else:
+                self.nvim.command("enew")
+            # Set the buffer type to nofile and hide it when it's not active
             self.nvim.command("setlocal buftype=nofile bufhidden=hide noswapfile")
             # Set filetype as markdown and wrap with linebreaks
             self.nvim.command("setlocal filetype=markdown wrap linebreak")
