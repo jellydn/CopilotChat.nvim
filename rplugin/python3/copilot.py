@@ -87,6 +87,10 @@ class Copilot:
         self.token = self.session.get(url, headers=headers).json()
 
     def ask(self, prompt: str, code: str, language: str = ""):
+        # If expired, reauthenticate
+        if self.token.get("expires_at") <= round(time.time()):
+            self.authenticate()
+
         url = "https://api.githubcopilot.com/chat/completions"
         self.chat_history.append(typings.Message(prompt, "user"))
         system_prompt = prompts.COPILOT_INSTRUCTIONS
@@ -116,6 +120,8 @@ class Copilot:
                 if "choices" not in line:
                     print("Error:", line)
                     raise Exception(f"No choices on {line}")
+                if len(line["choices"]) == 0:
+                    continue
                 content = line["choices"][0]["delta"]["content"]
                 if content is None:
                     continue
@@ -126,6 +132,22 @@ class Copilot:
                 continue
 
         self.chat_history.append(typings.Message(full_response, "system"))
+
+    def _get_embeddings(self, inputs: list[typings.FileExtract]):
+        embeddings = []
+        url = "https://api.githubcopilot.com/embeddings"
+        # If we have more than 18 files, we need to split them into multiple requests
+        for i in range(0, len(inputs), 18):
+            if i + 18 > len(inputs):
+                data = utilities.generate_embedding_request(inputs[i:])
+            else:
+                data = utilities.generate_embedding_request(inputs[i : i + 18])
+            response = self.session.post(url, headers=self._headers(), json=data).json()
+            if "data" not in response:
+                raise Exception(f"Error fetching embeddings: {response}")
+            for embedding in response["data"]:
+                embeddings.append(embedding["embedding"])
+        return embeddings
 
     def _headers(self):
         return {

@@ -65,6 +65,7 @@ class CopilotChatPlugin(object):
 
         # Get the current buffer
         buf = self.nvim.current.buffer
+        self.nvim.api.buf_set_option(buf, "fileencoding", "utf-8")
 
         # Add start separator
         start_separator = f"""### User
@@ -79,7 +80,8 @@ class CopilotChatPlugin(object):
         for token in self.copilot.ask(prompt, code, language=file_type):
             buffer_lines = self.nvim.api.buf_get_lines(buf, 0, -1, 0)
             last_line_row = len(buffer_lines) - 1
-            last_line_col = len(buffer_lines[-1])
+            last_line = buffer_lines[-1]
+            last_line_col = len(last_line.encode("utf-8"))
 
             self.nvim.api.buf_set_text(
                 buf,
