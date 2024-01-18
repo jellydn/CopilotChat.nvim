@@ -35,8 +35,11 @@ class CopilotChatPlugin(object):
         if self.copilot.github_token is None:
             self.nvim.out_write("Please authenticate with Copilot first\n")
             return
-        prompt = " ".join(args)
 
+        # Start the spinner
+        self.nvim.exec_lua('require("CopilotChat.spinner").show()')
+
+        prompt = " ".join(args)
         if prompt == "/fix":
             prompt = prompts.FIX_SHORTCUT
         elif prompt == "/test":
@@ -91,6 +94,9 @@ class CopilotChatPlugin(object):
                 last_line_col,
                 token.split("\n"),
             )
+
+        # Stop the spinner
+        self.nvim.exec_lua('require("CopilotChat.spinner").hide()')
 
         # Add end separator
         end_separator = "\n---\n"
