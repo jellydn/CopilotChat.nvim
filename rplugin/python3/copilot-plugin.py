@@ -47,17 +47,6 @@ class CopilotChatPlugin(object):
         elif prompt == "/explain":
             prompt = prompts.EXPLAIN_SHORTCUT
 
-        # Start the spinner
-        self.nvim.exec_lua('require("CopilotChat.spinner").show()')
-
-        prompt = " ".join(args)
-        if prompt == "/fix":
-            prompt = prompts.FIX_SHORTCUT
-        elif prompt == "/test":
-            prompt = prompts.TEST_SHORTCUT
-        elif prompt == "/explain":
-            prompt = prompts.EXPLAIN_SHORTCUT
-
         # Get code from the unnamed register
         code = self.nvim.eval("getreg('\"')")
         file_type = self.nvim.eval("expand('%')").split(".")[-1]
