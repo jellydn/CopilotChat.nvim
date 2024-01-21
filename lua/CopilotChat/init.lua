@@ -20,7 +20,7 @@ M.setup = function(options)
   --  Loop through merged table and generate commands based on keys.
   for key, value in pairs(prompts) do
     utils.create_cmd('CopilotChat' .. key, function()
-      vim.cmd('CopilotChat ' .. value)
+      vim.cmd('CopilotChatInner ' .. value)
     end, { nargs = '*', range = true })
   end
 end
