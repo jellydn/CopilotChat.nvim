@@ -54,17 +54,38 @@ class CopilotChatPlugin(object):
         # Get the view option from the command
         view_option = self.nvim.eval("g:copilot_chat_view_option")
 
+        buffers = self.nvim.buffers
+
+        existing_buffer = next((buf for buf in buffers if os.path.basename(buf.name) == "CopilotChat"), None)
+
         # Check if we're already in a chat buffer
-        if self.nvim.eval("getbufvar(bufnr(), '&buftype')") != "nofile":
+        if existing_buffer is None:
             # Create a new scratch buffer to hold the chat
             if view_option == "split":
-                self.nvim.command("vnew")
+                self.nvim.command("vnew CopilotChat")
             else:
-                self.nvim.command("enew")
+                self.nvim.command("e CopilotChat")
             # Set the buffer type to nofile and hide it when it's not active
             self.nvim.command("setlocal buftype=nofile bufhidden=hide noswapfile")
             # Set filetype as markdown and wrap with linebreaks
             self.nvim.command("setlocal filetype=markdown wrap linebreak")
+            buf = self.nvim.current.buffer
+        else:
+            # Use the existing buffer
+            buf = existing_buffer
+
+            # Check if the buffer is already open in a window
+            win_id = self.nvim.funcs.bufwinnr(buf.number)
+
+            if win_id != -1:
+                # If the buffer is open in a window, switch to that window
+                self.nvim.funcs.win_gotoid(win_id)
+            else:
+                # If the buffer is not open in a window, open it in a new split
+                if view_option == "split":
+                    self.nvim.command("vsplit " + buf.name)
+                else:
+                    self.nvim.command("e " + buf.name)
 
         # Get the current buffer
         buf = self.nvim.current.buffer
