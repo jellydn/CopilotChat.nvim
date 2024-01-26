@@ -87,8 +87,6 @@ class CopilotChatPlugin(object):
                 else:
                     self.nvim.command("e " + buf.name)
 
-        # Get the current buffer
-        buf = self.nvim.current.buffer
         self.nvim.api.buf_set_option(buf, "fileencoding", "utf-8")
 
         # Add start separator
