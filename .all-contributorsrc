@@ -1,0 +1,26 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "qoobes",
+      "name": "Ahmed Haracic",
+      "avatar_url": "https://avatars.githubusercontent.com/u/58834655?v=4",
+      "profile": "https://qoobes.dev",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "CopilotChat.nvim",
+  "projectOwner": "jellydn"
+}
