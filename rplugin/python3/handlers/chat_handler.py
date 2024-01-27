@@ -1,11 +1,17 @@
 from typing import Optional, cast
 
-import tiktoken
-
 import mycopilot.prompts as prompts
 from mypynvim.core.nvim import MyNvim
 from mypynvim.core.buffer import MyBuffer
 from mycopilot.mycopilot import Copilot
+
+
+def is_module_installed(name):
+    try:
+        __import__(name)
+        return True
+    except ImportError:
+        return False
 
 
 class ChatHandler:
@@ -58,6 +64,55 @@ class ChatHandler:
         file_type: str,
         winnr: int,
     ):
+        if is_module_installed("tiktoken"):
+            self._add_start_separator_with_token_count(
+                system_prompt, prompt, code, file_type, winnr
+            )
+        else:
+            self._add_regular_start_separator(
+                system_prompt, prompt, code, file_type, winnr
+            )
+
+    def _add_regular_start_separator(
+        self,
+        system_prompt: str,
+        prompt: str,
+        code: str,
+        file_type: str,
+        winnr: int,
+    ):
+        if code:
+            code = f"\n        \nCODE:\n```{file_type}\n{code}\n```"
+
+        last_row_before = len(self.buffer.lines())
+        system_prompt_height = len(system_prompt.split("\n"))
+        code_height = len(code.split("\n"))
+
+        start_separator = f"""### User
+                                        
+SYSTEM PROMPT:
+```
+{system_prompt}
+```
+{prompt}{code}
+
+### Copilot
+
+"""
+        self.buffer.append(start_separator.split("\n"))
+
+        self._add_folds(code, code_height, last_row_before, system_prompt_height, winnr)
+
+    def _add_start_separator_with_token_count(
+        self,
+        system_prompt: str,
+        prompt: str,
+        code: str,
+        file_type: str,
+        winnr: int,
+    ):
+        import tiktoken
+
         encoding = tiktoken.encoding_for_model("gpt-4")
 
         num_total_tokens = len(encoding.encode(f"{system_prompt}\n{prompt}\n{code}"))
@@ -91,7 +146,16 @@ SYSTEM PROMPT: {num_system_tokens} Tokens
             last_row_after, f"{num_prompt_tokens} Tokens", "NightflySteelBlue"
         )
 
-        # folds
+        self._add_folds(code, code_height, last_row_before, system_prompt_height, winnr)
+
+    def _add_folds(
+        self,
+        code: str,
+        code_height: int,
+        last_row_before: int,
+        system_prompt_height: int,
+        winnr: int,
+    ):
         system_fold_start = last_row_before + 2
         system_fold_end = system_fold_start + system_prompt_height + 3
         main_command = f"{system_fold_start}, {system_fold_end} fold | normal! Gzz"
