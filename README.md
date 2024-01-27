@@ -36,9 +36,9 @@ return {
       { "<leader>cce", "<cmd>CopilotChatExplain<cr>", desc = "CopilotChat - Explain code" },
       { "<leader>cct", "<cmd>CopilotChatTests<cr>", desc = "CopilotChat - Generate tests" },
 
-      { "your_keymap", ":CopilotChatVsplit", mode = "n", desc = "CopilotChat - Open in vertical split in normal mode" },
-      { "your_keymap", ":CopilotChatVsplitVisual", mode = "x", desc = "CopilotChat - Open in vertical split in visual mode" },
-      { "your_keymap", "<cmd>CopilotChatInPlace", mode = "x", desc = "CopilotChat - Open in-place code replacement layout" },
+      { "<leader>ccv", ":CopilotChatVsplit", mode = "n", desc = "CopilotChat - Open in vertical split in normal mode" },
+      { "<leader>ccv", ":CopilotChatVsplitVisual", mode = "x", desc = "CopilotChat - Open in vertical split in visual mode" },
+      { "<leader>ccx", "<cmd>CopilotChatInPlace", mode = "x", desc = "CopilotChat - Open in-place code replacement layout" },
     },
   },
 }
