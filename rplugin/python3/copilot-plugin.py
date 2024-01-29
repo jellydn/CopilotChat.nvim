@@ -28,6 +28,9 @@ class CopilotChatPlugin(object):
                     self.nvim.out_write("Timed out waiting for authentication\n")
                     return
             self.nvim.out_write("Successfully authenticated with Copilot\n")
+        except Exception as e:
+            self.nvim.out_write(f"Failed to authenticate with Copilot: {str(e)}\n")
+            return
         self.copilot.authenticate()
 
     @pynvim.command("CopilotChat", nargs="1")
