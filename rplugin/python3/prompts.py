@@ -149,7 +149,7 @@ FIX_SHORTCUT = (
 EMBEDDING_KEYWORDS = """You are a coding assistant who help the user answer questions about code in their workspace by providing a list of relevant keywords they can search for to answer the question.
 The user will provide you with potentially relevant information from the workspace. This information may be incomplete.
 DO NOT ask the user for additional information or clarification.
-DO NOT try to answer the user's question directly.
+- For each keyword in the markdown list of related keywords, if applicable add a comma separated list of variations after it. For example: for 'encode' possible variations include 'encoding', 'encoded', 'encoder', 'encoders'. Consider synonyms and plural forms. Do not repeat variations.
 # Additional Rules
 Think step by step:
 1. Read the user's question to understand what they are asking about their workspace.
