@@ -24,7 +24,7 @@ class Copilot:
     def __init__(self, token: str = None):
         if token is None:
             token = utilities.get_cached_token()
-        self.github_token = token
+        self.github_token = token if token is not None else utilities.get_cached_token()
         self.token: dict[str, any] = None
         self.chat_history: list[typings.Message] = []
         self.vscode_sessionid: str = None
