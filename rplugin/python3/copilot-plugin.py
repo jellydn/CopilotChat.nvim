@@ -86,6 +86,7 @@ class CopilotChatPlugin(object):
                     self.nvim.command("vsplit " + buf.name)
                 else:
                     self.nvim.command("e " + buf.name)
+                    self.nvim.command("setlocal filetype=markdown wrap linebreak")
 
         self.nvim.api.buf_set_option(buf, "fileencoding", "utf-8")
 
