@@ -10,7 +10,7 @@ local default_prompts = {
 -- Set up the plugin
 ---@param options (table | nil)
 --       - mode: ('newbuffer' | 'split') default: newbuffer.
---       - show_help: ('yes' | 'no') default: 'yes'.
+--       - show_help: ('yes' | 'no') | nil default: 'yes'
 --       - prompts: (table?) default: default_prompts.
 M.setup = function(options)
   vim.g.copilot_chat_view_option = options and options.mode or 'newbuffer'
@@ -29,7 +29,7 @@ M.setup = function(options)
 
 <<<<<<< HEAD
   for key, value in pairs(prompts) do
-    utils.create_cmd('CC' .. key, function()
+    utils.create_cmd('CopilotChat' .. key, function()
       vim.cmd('CopilotChatVsplit ' .. value)
     end, { nargs = '*', range = true })
   end
