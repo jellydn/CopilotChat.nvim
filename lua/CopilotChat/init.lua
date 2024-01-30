@@ -27,7 +27,12 @@ M.setup = function(options)
     end, { nargs = '*', range = true })
   end
 
-<<<<<<< HEAD
+  vim.g.copilot_chat_view_option = options and options.mode or 'newbuffer'
+  vim.g.copilot_chat_show_help = options and options.show_help or 'yes'
+
+  -- Merge the provided prompts with the default prompts
+  local prompts = vim.tbl_extend('force', default_prompts, options and options.prompts or {})
+  vim.g.copilot_chat_user_prompts = prompts
   for key, value in pairs(prompts) do
     utils.create_cmd('CC' .. key, function()
       vim.cmd('CopilotChatVsplit ' .. value)
