@@ -27,6 +27,7 @@ M.setup = function(options)
     end, { nargs = '*', range = true })
   end
 
+<<<<<<< HEAD
   for key, value in pairs(prompts) do
     utils.create_cmd('CC' .. key, function()
       vim.cmd('CopilotChatVsplit ' .. value)
@@ -34,6 +35,9 @@ M.setup = function(options)
   end
 
   -- Toggle between newbuffer and vsplit
+=======
+  -- Toggle between newbuffer and split
+>>>>>>> origin/main
   utils.create_cmd('CopilotChatToggleLayout', function()
     if vim.g.copilot_chat_view_option == 'newbuffer' then
       vim.g.copilot_chat_view_option = 'split'
