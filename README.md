@@ -15,8 +15,6 @@
 
 ## Authentication
 
-It will prompt you with instructions on your first start. If you already have `Copilot.vim` or `Copilot.lua`, it will work automatically.
-
 ## Installation
 
 ### Lazy.nvim
@@ -29,6 +27,21 @@ It will prompt you with instructions on your first start. If you already have `C
 return {
   {
     "jellydn/CopilotChat.nvim",
+    branch = "canary", -- Will be merged to main branch when it's stable
+    opts = {
+      mode = "split", -- newbuffer or split, default: newbuffer
+      show_help = "yes", -- Show help text for CopilotChatInPlace, default: yes
+    },
+    build = function()
+      vim.defer_fn(function()
+        vim.cmd("UpdateRemotePlugins")
+        vim.notify("CopilotChat - Updated remote plugins. Please restart Neovim.")
+      end, 3000)
+    end,
+    event = "VeryLazy",
+    keys = {
+      { "<leader>cce", "<cmd>CopilotChatExplain<cr>", desc = "CopilotChat - Explain code" },
+      { "<leader>cct", "<cmd>CopilotChatTests<cr>", desc = "CopilotChat - Generate tests" },
     branch = "canary", -- Will be merged to main branch when it's stable
     opts = {
       mode = "split", -- newbuffer or split, default: newbuffer
