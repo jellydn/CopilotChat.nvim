@@ -2,6 +2,7 @@ import json
 import os
 import time
 import uuid
+from typing import Dict, List
 
 import dotenv
 import prompts
@@ -25,8 +26,8 @@ class Copilot:
         if token is None:
             token = utilities.get_cached_token()
         self.github_token = token
-        self.token: dict[str, any] = None
-        self.chat_history: list[typings.Message] = []
+        self.token: Dict[str, any] = None
+        self.chat_history: List[typings.Message] = []
         self.vscode_sessionid: str = None
         self.machineid = utilities.random_hex()
 
@@ -133,7 +134,7 @@ class Copilot:
 
         self.chat_history.append(typings.Message(full_response, "system"))
 
-    def _get_embeddings(self, inputs: list[typings.FileExtract]):
+    def _get_embeddings(self, inputs: List[typings.FileExtract]):
         embeddings = []
         url = "https://api.githubcopilot.com/embeddings"
         # If we have more than 18 files, we need to split them into multiple requests
