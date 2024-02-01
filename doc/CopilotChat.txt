@@ -1,0 +1,186 @@
+*CopilotChat.txt*         For NVIM v0.8.0        Last change: 2024 February 01
+
+==============================================================================
+Table of Contents                              *CopilotChat-table-of-contents*
+
+1. Copilot Chat for Neovim               |CopilotChat-copilot-chat-for-neovim|
+  - Authentication        |CopilotChat-copilot-chat-for-neovim-authentication|
+  - Installation            |CopilotChat-copilot-chat-for-neovim-installation|
+  - Usage                          |CopilotChat-copilot-chat-for-neovim-usage|
+  - Roadmap                      |CopilotChat-copilot-chat-for-neovim-roadmap|
+  - Contributors ✨    |CopilotChat-copilot-chat-for-neovim-contributors-✨|
+
+==============================================================================
+1. Copilot Chat for Neovim               *CopilotChat-copilot-chat-for-neovim*
+
+|CopilotChat-|
+
+
+  [!NOTE] There is a new command: `CopilotChatInPlace`, which functions similarly
+  to ChatGPT plugin. You can find it in the canary
+  <https://github.com/jellydn/CopilotChat.nvim/tree/canary?tab=readme-ov-file#lazynvim>
+  branch.
+
+AUTHENTICATION            *CopilotChat-copilot-chat-for-neovim-authentication*
+
+It will prompt you with instructions on your first start. If you already have
+`Copilot.vim` or `Copilot.lua`, it will work automatically.
+
+
+INSTALLATION                *CopilotChat-copilot-chat-for-neovim-installation*
+
+
+LAZY.NVIM ~
+
+1. `pip install python-dotenv requests pynvim==0.5.0 prompt-toolkit`
+2. Put it in your lazy setup
+
+>lua
+    return {
+      {
+        "jellydn/CopilotChat.nvim",
+        dependencies = { "zbirenbaum/copilot.lua" }, -- Or { "github/copilot.vim" }
+        opts = {
+          mode = "split", -- newbuffer or split  , default: newbuffer
+          debug = false, -- Enable or disable debug mode, the log file will be in ~/.local/state/nvim/CopilotChat.nvim.log
+        },
+        build = function()
+          vim.defer_fn(function()
+            vim.cmd("UpdateRemotePlugins")
+            vim.notify("CopilotChat - Updated remote plugins. Please restart Neovim.")
+          end, 3000)
+        end,
+        event = "VeryLazy",
+        keys = {
+          { "<leader>cce", "<cmd>CopilotChatExplain<cr>", desc = "CopilotChat - Explain code" },
+          { "<leader>cct", "<cmd>CopilotChatTests<cr>", desc = "CopilotChat - Generate tests" },
+        },
+      },
+    }
+<
+
+1. Run `:UpdateRemotePlugins`
+2. Restart `neovim`
+
+
+MANUAL ~
+
+1. Put the files in the right place
+
+>
+    $ git clone https://github.com/gptlang/CopilotChat.nvim
+    $ cd CopilotChat.nvim
+    $ cp -r --backup=nil rplugin ~/.config/nvim/
+<
+
+1. Install dependencies
+
+>
+    $ pip install -r requirements.txt
+<
+
+1. Open up Neovim and run `:UpdateRemotePlugins`
+2. Restart Neovim
+
+
+USAGE                              *CopilotChat-copilot-chat-for-neovim-usage*
+
+
+CONFIGURATION ~
+
+You have the ability to tailor this plugin to your specific needs using the
+configuration options outlined below:
+
+>lua
+    {
+      debug = false, -- Enable or disable debug mode
+      prompts = { -- Set dynamic prompts for CopilotChat commands
+        Explain = 'Explain how it works.',
+        Tests = 'Briefly explain how the selected code works, then generate unit tests.',
+      }
+    }
+<
+
+You have the capability to expand the prompts to create more versatile
+commands:
+
+>lua
+    return {
+        "jellydn/CopilotChat.nvim",
+        opts = {
+          mode = "split",
+          prompts = {
+            Explain = "Explain how it works.",
+            Review = "Review the following code and provide concise suggestions.",
+            Tests = "Briefly explain how the selected code works, then generate unit tests.",
+            Refactor = "Refactor the code to improve clarity and readability.",
+          },
+        },
+        build = function()
+          vim.defer_fn(function()
+            vim.cmd("UpdateRemotePlugins")
+            vim.notify("CopilotChat - Updated remote plugins. Please restart Neovim.")
+          end, 3000)
+        end,
+        event = "VeryLazy",
+        keys = {
+          { "<leader>cce", "<cmd>CopilotChatExplain<cr>", desc = "CopilotChat - Explain code" },
+          { "<leader>cct", "<cmd>CopilotChatTests<cr>", desc = "CopilotChat - Generate tests" },
+          { "<leader>ccr", "<cmd>CopilotChatReview<cr>", desc = "CopilotChat - Review code" },
+          { "<leader>ccR", "<cmd>CopilotChatRefactor<cr>", desc = "CopilotChat - Refactor code" },
+        }
+    }
+<
+
+For further reference, you can view my configuration
+<https://github.com/jellydn/lazy-nvim-ide/blob/main/lua/plugins/extras/copilot-chat.lua>.
+
+
+CHAT WITH GITHUB COPILOT ~
+
+1. Copy some code into the unnamed register using the `y` command.
+2. Run the command `:CopilotChat` followed by your question. For example, `:CopilotChat What does this code do?`
+
+
+CODE EXPLANATION ~
+
+1. Copy some code into the unnamed register using the `y` command.
+2. Run the command `:CopilotChatExplain`.
+
+
+GENERATE TESTS ~
+
+1. Copy some code into the unnamed register using the `y` command.
+2. Run the command `:CopilotChatTests`.
+
+<https://gyazo.com/f285467d4b8d8f8fd36aa777305312ae>
+
+
+ROADMAP                          *CopilotChat-copilot-chat-for-neovim-roadmap*
+
+- Translation to pure Lua
+- Tokenizer
+- Use vector encodings to automatically select code
+- Sub commands - See issue #5 <https://github.com/gptlang/CopilotChat.nvim/issues/5>
+
+
+CONTRIBUTORS ✨        *CopilotChat-copilot-chat-for-neovim-contributors-✨*
+
+Thanks goes to these wonderful people (emoji key
+<https://allcontributors.org/docs/en/emoji-key>):
+
+gptlang💻 📖Dung Duc Huynh (Kaka)💻 📖Ahmed Haracic💻Trí Thiện Nguyễn💻He Zhizhou💻This project follows the all-contributors
+<https://github.com/all-contributors/all-contributors> specification.
+Contributions of any kind welcome!
+
+==============================================================================
+2. Links                                                   *CopilotChat-links*
+
+1. *All Contributors*: https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square
+2. *Chat Demo*: https://i.gyazo.com/10fbd1543380d15551791c1a6dcbcd46.gif
+3. *Explain Code Demo*: https://i.gyazo.com/e5031f402536a1a9d6c82b2c38d469e3.gif
+4. *Generate tests*: https://i.gyazo.com/f285467d4b8d8f8fd36aa777305312ae.gif
+
+Generated by panvimdoc <https://github.com/kdheepak/panvimdoc>
+
+vim:tw=78:ts=8:noet:ft=help:norl:
