@@ -57,7 +57,8 @@ class CopilotChatPlugin(object):
 
         buffers = self.nvim.buffers
 
-        existing_buffer = next((buf for buf in buffers if os.path.basename(buf.name) == "CopilotChat"), None)
+        existing_buffer = next(
+            (buf for buf in buffers if os.path.basename(buf.name) == "CopilotChat"), None)
 
         # Check if we're already in a chat buffer
         if existing_buffer is None:
