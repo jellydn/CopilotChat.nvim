@@ -87,7 +87,9 @@ class Copilot:
 
         self.token = self.session.get(url, headers=headers).json()
 
-    def ask(self, system_prompt: str, prompt: str, code: str, language: str = ""):
+    def ask(
+        self, system_prompt: str, prompt: str, code: str, language: str = "", model: str = "gpt-4"
+    ):
         if not self.token:
             self.authenticate()
         # If expired, reauthenticate
@@ -99,7 +101,7 @@ class Copilot:
         url = "https://api.githubcopilot.com/chat/completions"
         self.chat_history.append(typings.Message(prompt, "user"))
         data = utilities.generate_request(
-            self.chat_history, code, language, system_prompt=system_prompt
+            self.chat_history, code, language, system_prompt=system_prompt, model=model
         )
 
         full_response = ""
