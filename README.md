@@ -28,8 +28,7 @@ return {
     branch = "canary", -- Will be merged to main branch when it's stable
     opts = {
 <<<<<<< HEAD
-      mode = "split", -- newbuffer or split, default: newbuffer
-      show_help = "yes", -- Show help text for CopilotChatInPlace, default: yes
+      mode = "split", -- newbuffer or split  , default: newbuffer
 =======
       mode = "split", -- newbuffer or split  , default: newbuffer
 >>>>>>> origin/main
