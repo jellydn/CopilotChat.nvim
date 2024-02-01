@@ -9,6 +9,7 @@ from prompt_toolkit import PromptSession
 from prompt_toolkit.history import InMemoryHistory
 import utilities
 import typings
+import prompts
 from typing import List, Dict
 
 LOGIN_HEADERS = {
@@ -92,6 +93,9 @@ class Copilot:
         # If expired, reauthenticate
         if self.token.get("expires_at") <= round(time.time()):
             self.authenticate()
+
+        if not system_prompt:
+            system_prompt = prompts.COPILOT_INSTRUCTIONS
         url = "https://api.githubcopilot.com/chat/completions"
         self.chat_history.append(typings.Message(prompt, "user"))
         data = utilities.generate_request(
@@ -184,7 +188,7 @@ def main():
         code = get_input(session, "\n\nCode: \n")
 
         print("\n\nAI Response:")
-        for response in copilot.ask(user_prompt, code):
+        for response in copilot.ask(None, user_prompt, code):
             print(response, end="", flush=True)
 
 
