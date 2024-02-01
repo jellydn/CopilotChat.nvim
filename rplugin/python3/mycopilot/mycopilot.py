@@ -1,11 +1,12 @@
-import os
-import requests
-import uuid
-import time
 import json
+import os
+import time
+import uuid
+from typing import Dict, List
 
-from . import utilities
-from . import typings
+import requests
+
+from . import typings, utilities
 
 LOGIN_HEADERS = {
     "accept": "application/json",
@@ -23,8 +24,8 @@ class Copilot:
             token = utilities.get_cached_token()
         self.github_token = token
 
-        self.token: dict[str, any] = None
-        self.chat_history: list[typings.Message] = []
+        self.token: Dict[str, any] = None
+        self.chat_history: List[typings.Message] = []
         self.vscode_sessionid: str = None
         self.machineid = utilities.random_hex()
 
@@ -85,39 +86,6 @@ class Copilot:
 
         self.token = self.session.get(url, headers=headers).json()
 
-    def function_calling_test(
-        self,
-    ):
-        url = "https://api.githubcopilot.com/chat/completions"
-
-        data = {
-            "model": "gpt-4",
-            "messages": [
-                {
-                    "role": "system",
-                    "content": "Perform function requests for the user",
-                },
-                {
-                    "role": "user",
-                    "content": "What's the current time?",
-                },
-            ],
-            "functions": [
-                {
-                    "name": "get_current_time",
-                    "description": "Returns the current time",
-                    "parameters": [],
-                }
-            ],
-        }
-
-        response = self.session.post(
-            url, headers=self._headers(), json=data, stream=True
-        )
-
-        with open("response.json", "w") as f:
-            f.write(response.text)
-
     def ask(
         self,
         system_prompt: str,
@@ -137,6 +105,8 @@ class Copilot:
         response = self.session.post(
             url, headers=self._headers(), json=data, stream=True
         )
+        if response.status_code != 200:
+            raise Exception(f"Error fetching response: {response}")
         for line in response.iter_lines():
             line = line.decode("utf-8").replace("data: ", "").strip()
             if line.startswith("[DONE]"):
