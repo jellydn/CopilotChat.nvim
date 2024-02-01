@@ -25,7 +25,6 @@ return {
   {
     "gptlang/CopilotChat.nvim",
     dependencies = { "zbirenbaum/copilot.lua" }, -- Or { "github/copilot.vim" }
-    branch = "canary", -- Will be merged to main branch when it's stable
     opts = {
       mode = "split", -- newbuffer or split, default: newbuffer
       show_help = "yes", -- Show help text for CopilotChatInPlace, default: yes
