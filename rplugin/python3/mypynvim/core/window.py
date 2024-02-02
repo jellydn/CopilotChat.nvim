@@ -1,7 +1,9 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
 
 from pynvim.api import Window
+
 from .buffer import MyBuffer
 
 if TYPE_CHECKING:

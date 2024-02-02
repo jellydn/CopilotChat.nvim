@@ -1,5 +1,5 @@
-from typing import Literal, Union, TypedDict, Dict
 from dataclasses import dataclass
+from typing import Dict, Literal, TypedDict, Union
 
 Relative = Literal["editor", "win", "cursor"]
 PaddingKeys = Dict[Literal["top", "right", "bottom", "left"], int]

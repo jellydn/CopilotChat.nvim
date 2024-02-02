@@ -1,10 +1,12 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Dict, Optional, Unpack, Union
-from dataclasses import dataclass
+
 from copy import deepcopy
+from dataclasses import dataclass
+from typing import TYPE_CHECKING, Any, Callable, Dict, Optional, Union, Unpack
 
 if TYPE_CHECKING:
     from mypynvim.core.nvim import MyNvim
+
     from .layout import Layout
 
 if TYPE_CHECKING:
@@ -12,8 +14,9 @@ if TYPE_CHECKING:
 
 from mypynvim.core.buffer import MyBuffer
 from mypynvim.core.window import MyWindow
+
 from .calculator import Calculator
-from .types import Relative, PopUpConfiguration, PopUpArgs, PaddingKeys
+from .types import PaddingKeys, PopUpArgs, PopUpConfiguration, Relative
 
 
 @dataclass

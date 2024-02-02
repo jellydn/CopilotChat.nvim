@@ -1,10 +1,11 @@
-from typing import Callable, Optional, Union, Literal, cast
 from dataclasses import dataclass
+from typing import Callable, Literal, Optional, Union, cast
 
 from mypynvim.core.nvim import MyNvim
-from .popup import PopUp
+
 from .calculator import Calculator
-from .types import Relative, PopUpConfiguration
+from .popup import PopUp
+from .types import PopUpConfiguration, Relative
 
 
 class Box:

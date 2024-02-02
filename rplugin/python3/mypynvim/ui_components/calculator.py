@@ -1,6 +1,7 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Literal, Union
+
 from dataclasses import dataclass
+from typing import TYPE_CHECKING, Literal, Union
 
 from mypynvim.core.nvim import MyNvim
 

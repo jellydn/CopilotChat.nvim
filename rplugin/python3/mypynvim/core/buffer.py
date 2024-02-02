@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, LiteralString, Union, Callable, Dict
+
+from typing import TYPE_CHECKING, Any, Callable, Dict, LiteralString, Union
 
 from pynvim.api import Buffer
 

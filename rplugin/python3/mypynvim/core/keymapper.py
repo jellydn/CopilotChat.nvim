@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Union, Callable
+
+from typing import TYPE_CHECKING, Callable, Union
 
 if TYPE_CHECKING:
     from .nvim import MyNvim

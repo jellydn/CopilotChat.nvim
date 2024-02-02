@@ -1,6 +1,6 @@
-from mypynvim.core.nvim import MyNvim
-from mypynvim.core.buffer import MyBuffer
 from handlers.chat_handler import ChatHandler
+from mypynvim.core.buffer import MyBuffer
+from mypynvim.core.nvim import MyNvim
 
 
 class VSplitChatHandler(ChatHandler):
