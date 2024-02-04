@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional, cast
 
 import prompts as prompts
@@ -52,7 +53,7 @@ class ChatHandler:
         self.nvim.exec_lua('require("CopilotChat.spinner").hide()')
 
         if not disable_end_separator:
-            self._add_end_separator()
+            self._add_end_separator(model)
 
     # private
 
@@ -204,6 +205,13 @@ SYSTEM PROMPT: {num_system_tokens} Tokens
                 token.split("\n"),
             )
 
-    def _add_end_separator(self):
-        end_separator = "\n---\n"
-        self.buffer.append(end_separator.split("\n"))
+    def _add_end_separator(self, model: str):
+        current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        model_info = f"\n#### Answer provided by Copilot (Model: `{model}`) on {current_datetime}."
+        additional_instructions = (
+            "\n> For additional queries, please use the `CopilotChat` command."
+        )
+        disclaimer = "\n> Please be aware that the AI's output may not always be accurate. Always cross-verify the output.\n---\n"
+
+        end_message = model_info + additional_instructions + disclaimer
+        self.buffer.append(end_message.split("\n"))
