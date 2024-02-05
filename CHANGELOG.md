@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.0.0](https://github.com/jellydn/CopilotChat.nvim/compare/v1.2.1...v2.0.0) (2024-02-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* disable extra info as default
+* disable extra info as default
+
+### Code Refactoring
+
+* disable extra info as default ([5c4c22d](https://github.com/jellydn/CopilotChat.nvim/commit/5c4c22d1bb13d1d927c3301840d2a0699df2b732))
+* disable extra info as default ([50c8fd0](https://github.com/jellydn/CopilotChat.nvim/commit/50c8fd0e1755807a6bca5d3504b38f9f9128ff6f))
+
 ## [1.2.1](https://github.com/jellydn/CopilotChat.nvim/compare/v1.2.0...v1.2.1) (2024-02-05)
 
 
